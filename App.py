@@ -2,6 +2,9 @@ import io
 
 from flask import Flask, Response, request, flash, send_file, jsonify, make_response, render_template, redirect
 from flask_cors import cross_origin
+from picture_mixer import InitializeMixer
+from picture_mixer.servieces import DataHolder
+
 
 app = Flask(__name__, static_url_path='', static_folder='static', template_folder='templates')
 
@@ -24,7 +27,15 @@ def hello_world():
         flash('No selected file')
         return redirect(request.url)
     if file and allowed_file(file.filename):
-        return send_file(io.BytesIO(file.stream.read()), mimetype="image/jpeg")
+        images = []
+        for file in request.files:
+            images.append(file)
+        InitializeMixer.InitializeMixer(images)
+        image = DataHolder.images[0]
+        DataHolder.images.clear()
+
+        return send_file(io.BytesIO(image.stream.read()), mimetype="image/jpeg")
+
 
 
 def allowed_file(filename):

@@ -1,4 +1,5 @@
 import threading
+from picture_mixer.servieces import DataHolder
 
 
 class ImageMixer(threading.Thread):
@@ -11,4 +12,4 @@ class ImageMixer(threading.Thread):
         self.mixImages()
 
     def mixImages(self):
-        print(self.images)
+        DataHolder.images = self.images
