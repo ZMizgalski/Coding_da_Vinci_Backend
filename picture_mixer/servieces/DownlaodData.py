@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import json
 
 imagesGalleryList = []
 ObjectsList = []
@@ -124,4 +125,6 @@ for obj_tmp in ObjectsList:
     }
     finalObjects.append(objectData)
 
-print(finalObjects)
+with open('data.json', 'w') as f:
+    json.dump(finalObjects, f)
+# print(finalObjects)
