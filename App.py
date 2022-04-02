@@ -1,6 +1,8 @@
 import io
 
-from flask import Flask, Response, request, flash, send_file, jsonify, make_response, render_template, redirect
+from PIL import Image
+from flask import Flask, Response, request, flash, send_file, send_from_directory, jsonify, make_response, \
+    render_template, redirect
 from flask_cors import cross_origin
 from picture_mixer import InitializeMixer
 from picture_mixer.servieces import DataHolder
@@ -36,19 +38,21 @@ def renderImage():
         return Response("No files found!", status=400)
     if file and allowed_file(file.filename):
         images = []
-        for file in request.files:
-            print(file)
+        for file in request.files.get('file'):
             images.append(file)
         mixer = InitializeMixer.InitializeMixer(images)
         mixedImage = mixer.getImage()
         DataHolder.images.clear()
         DataHolder.mixedImage.clear()
-        try:
-            imageStream = mixedImage.stream.read()
-        except AttributeError:
-            return Response("Something went wrong with mixed image!", status=400)
 
-        return send_file(io.BytesIO(imageStream), mimetype="image/jpeg")
+        return Response(genImg(mixedImage), mimetype="multipart/x-mixed-replace; boundary=frame")
+    else:
+        return Response("No files found!", status=400)
+
+
+def genImg(mixedImage):
+    yield (b'--frame\r\n'
+           b'Content-Type: image/jpeg\r\n\r\n' + mixedImage + b'\r\n\r\n')
 
 
 def allowed_file(filename):

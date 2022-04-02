@@ -1,6 +1,7 @@
 from picture_mixer import ImageMixer
 from picture_mixer.servieces import DataHolder
 
+
 class InitializeMixer:
 
     def __init__(self, images):
@@ -23,4 +24,3 @@ class InitializeMixer:
     @staticmethod
     def getImage():
         return DataHolder.mixedImage[0]
-
