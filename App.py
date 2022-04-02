@@ -6,6 +6,7 @@ from picture_mixer import InitializeMixer
 from picture_mixer.servieces import DataHolder
 
 app = Flask(__name__, static_url_path='', static_folder='static', template_folder='templates')
+app.secret_key = 'E20467A8B2D5F32E451E1125BE47045DE600AA22F97046263869E291C5A49A67DD47C52D990FE0053D25FD659A4E358DE10A8F9756C9066A13B71AE860728B75'
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
@@ -23,30 +24,36 @@ def getData():
     return Response(content, status=200, mimetype="application/json")
 
 
-# @app.route('/renderImage', methods=["POST"])
-# @cross_origin()
-# def hello_world():
-#     if 'file' not in request.files:
-#         flash('No file part')
-#         return redirect(request.url)
-#     file = request.files['file']
-#     if file.filename == '':
-#         flash('No selected file')
-#         return redirect(request.url)
-#     if file and allowed_file(file.filename):
-#         images = []
-#         for file in request.files:
-#             images.append(file)
-#         InitializeMixer.InitializeMixer(images)
-#         image = DataHolder.images[0]
-#         DataHolder.images.clear()
-#
-#         return send_file(io.BytesIO(image.stream.read()), mimetype="image/jpeg")
-#
-#
-# def allowed_file(filename):
-#     return '.' in filename and \
-#            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-#
+@app.route('/renderImage', methods=["POST"])
+@cross_origin()
+def renderImage():
+    if 'file' not in request.files:
+        flash('No file part')
+        return Response("Key 'file' not found in request!", status=400)
+    file = request.files['file']
+    if file.filename == '':
+        flash('No selected file')
+        return Response("No files found!", status=400)
+    if file and allowed_file(file.filename):
+        images = []
+        for file in request.files:
+            print(file)
+            images.append(file)
+        mixer = InitializeMixer.InitializeMixer(images)
+        mixedImage = mixer.getImage()
+        DataHolder.images.clear()
+        DataHolder.mixedImage.clear()
+        try:
+            imageStream = mixedImage.stream.read()
+        except AttributeError:
+            return Response("Something went wrong with mixed image!", status=400)
+
+        return send_file(io.BytesIO(imageStream), mimetype="image/jpeg")
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 app.run(port=8080, debug=False)
