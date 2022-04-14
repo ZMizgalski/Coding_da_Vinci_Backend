@@ -26,13 +26,13 @@ List the ready features here:
 - Museum database
 
 ## Setup
-- Run `npm i`
-- Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Install Python 
+- Install requirements.txt
 
 ## Usage
 1. Create a folder named you like.
 2. Inside your folder, open console and paste: `git clone https://github.com/ZMizgalski/Coding_da_Vinci_Backend.git`
-3. Then you are ready to go just open it in any Editor. (I prefer VSCode) [Download here](https://code.visualstudio.com/)
+3. Then you are ready to go just open it in any Editor. (I prefer Pycharm) [Download here](https://www.jetbrains.com/pycharm/)
 
 ## Project Status
 Project is:  _complete_ .
