@@ -35,10 +35,15 @@ for obj_tmp in ObjectsList:
         imgs = top_images.find_all('img')
         for img in imgs:
             src = str(img).split("src=")[1].split("\"")[1]
+            link = src.split("/")[6]
+            small = src.replace(link, '') + "100h_" + link.split("_")[1]
+            medium = src.replace(link, '') + "200w_" + link.split("_")[1]
+            large = src.replace(link, '') + "500w_" + link.split("_")[1]
+            sizes = {'small': small, 'medium': medium, 'large': large}
             alt = str(img).split("alt=")[1].split("height=")[0].replace('\'', "").replace("\n", ' ').replace('/',
                                                                                                              ' ').replace(
                 '\"', '').split("src=")[0]
-            dataImg = {'src': src, 'alt': alt}
+            dataImg = {'src': sizes, 'alt': alt}
             imagesGalleryList.append(dataImg)
     except AttributeError:
         imagesGalleryList = []
