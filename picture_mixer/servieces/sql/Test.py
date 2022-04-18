@@ -1,3 +1,0 @@
-from SQLite import *
-
-addImageToDb('')
