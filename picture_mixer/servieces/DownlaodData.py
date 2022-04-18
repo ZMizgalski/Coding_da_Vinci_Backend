@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 
-imagesGalleryList = []
+# imagesGalleryList = []
 ObjectsList = []
 finalObjects = []
 
@@ -31,27 +31,33 @@ for obj_tmp in ObjectsList:
     header = soup2.find('header', {'id': 'pageTitle'})
     mainTitle = str(header.find("h2")).replace('<h2>', '').replace('</h2>', '')
     top_images = soup2.find('div', {'class': 'objektimage_overview'})
-    try:
-        imgs = top_images.find_all('img')
-        for img in imgs:
-            src = str(img).split("src=")[1].split("\"")[1]
-            link = src.split("/")[6]
-            original = src.replace(link, '') + link.split("_")[1]
-            small = src.replace(link, '') + "100h_" + link.split("_")[1]
-            medium = src.replace(link, '') + "200w_" + link.split("_")[1]
-            large = src.replace(link, '') + "500w_" + link.split("_")[1]
-            sizes = {'original': original, 'small': small, 'medium': medium, 'large': large}
-            alt = str(img).split("alt=")[1].split("height=")[0].replace('\'', "").replace("\n", ' ').replace('/',
-                                                                                                             ' ').replace(
-                '\"', '').split("src=")[0]
-            dataImg = {'src': sizes, 'alt': alt}
-            imagesGalleryList.append(dataImg)
-    except AttributeError:
-        imagesGalleryList = []
+
+    # try:
+    #     imgs = top_images.find_all('img')
+    #     for img in imgs:
+    #         src = str(img).split("src=")[1].split("\"")[1]
+    #         link = src.split("/")[6]
+    #         small = src.replace(link, '') + "100h_" + link.split("_")[1]
+    #         medium = src.replace(link, '') + "200w_" + link.split("_")[1]
+    #         large = src.replace(link, '') + "500w_" + link.split("_")[1]
+    #         sizes = {'small': small, 'medium': medium, 'large': large}
+    #         alt = str(img).split("alt=")[1].split("height=")[0].replace('\'', "").replace("\n", ' ').replace('/',
+    #                                                                                                          ' ').replace(
+    #             '\"', '').split("src=")[0]
+    #         dataImg = {'src': sizes, 'alt': alt}
+    #         imagesGalleryList.append(dataImg)
+    # except AttributeError:
+    #     imagesGalleryList = []
 
     section1 = soup2.find('section', {'id': 'objectInfo'})
 
     mainImage = str(soup2.find('meta', {'property': 'image'})).split('content=')[1].split("\"")[1]
+
+    smallImageList = str(soup2.find('meta', {'property': 'image'})).split('content=')[1].split("\"")[1].split("/")
+    link = mainImage.replace(smallImageList[7], '')
+    image = "200w_" + smallImageList[7]
+    smallImage = link + image
+
     objectTitle = str(soup2.find('h3', {'id': 'objectInfoTitle'})).split('>')[1].split('<')[0]
 
     exp_strings = ['span', '=', '/p', '/a']
@@ -117,9 +123,21 @@ for obj_tmp in ObjectsList:
     mainFooterTitle = str(section4.find('h3')).replace('<h3>', '').replace("</h3>", '')
     mainFooterContent = str(section4.find('a')).split('>')[1].split('<')[0]
 
+    # objectData = {
+    #     'mainTitle': mainTitle,
+    #     'imagesGalleryList': imagesGalleryList,
+    #     'mainImage': mainImage,
+    #     'objectTitle': objectTitle,
+    #     'description': final_desc,
+    #     'mainTechnique_title': mainTechnique_title,
+    #     'mainTechnique_content': mainTechnique_content,
+    #     'measurements_title': measurements_title,
+    #     'measurements_content': measurements_content,
+    #     'events': events
+    # }
     objectData = {
         'mainTitle': mainTitle,
-        'imagesGalleryList': imagesGalleryList,
+        'smallImage': smallImage,
         'mainImage': mainImage,
         'objectTitle': objectTitle,
         'description': final_desc,
@@ -129,6 +147,8 @@ for obj_tmp in ObjectsList:
         'measurements_content': measurements_content,
         'events': events
     }
+
+
     finalObjects.append(objectData)
 
 with open('data.json', 'w') as f:
