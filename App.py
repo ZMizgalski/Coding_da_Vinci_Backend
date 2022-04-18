@@ -1,14 +1,11 @@
-import io
-
-from PIL import Image
-from flask import Flask, Response, request, flash, send_file, send_from_directory, jsonify, make_response, \
-    render_template, redirect
+from flask import Flask, Response, request, flash, redirect
 from flask_cors import cross_origin
 from picture_mixer import InitializeMixer
 from picture_mixer.servieces import DataHolder
 
 app = Flask(__name__, static_url_path='', static_folder='static', template_folder='templates')
 app.secret_key = 'E20467A8B2D5F32E451E1125BE47045DE600AA22F97046263869E291C5A49A67DD47C52D990FE0053D25FD659A4E358DE10A8F9756C9066A13B71AE860728B75'
+
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 

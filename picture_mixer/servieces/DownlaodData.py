@@ -36,10 +36,11 @@ for obj_tmp in ObjectsList:
         for img in imgs:
             src = str(img).split("src=")[1].split("\"")[1]
             link = src.split("/")[6]
+            original = src.replace(link, '') + link.split("_")[1]
             small = src.replace(link, '') + "100h_" + link.split("_")[1]
             medium = src.replace(link, '') + "200w_" + link.split("_")[1]
             large = src.replace(link, '') + "500w_" + link.split("_")[1]
-            sizes = {'small': small, 'medium': medium, 'large': large}
+            sizes = {'original': original, 'small': small, 'medium': medium, 'large': large}
             alt = str(img).split("alt=")[1].split("height=")[0].replace('\'', "").replace("\n", ' ').replace('/',
                                                                                                              ' ').replace(
                 '\"', '').split("src=")[0]
