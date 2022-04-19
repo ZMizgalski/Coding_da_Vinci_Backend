@@ -5,11 +5,17 @@ from werkzeug.utils import secure_filename
 from flask_cors import cross_origin
 from picture_mixer import InitializeMixer
 from picture_mixer.servieces import DataHolder
+import requests
+import wget
+import io
+import urllib3
+import shutil
 
 app = Flask(__name__, static_url_path='', static_folder='static', template_folder='templates')
 app.secret_key = 'E20467A8B2D5F32E451E1125BE47045DE600AA22F97046263869E291C5A49A67DD47C52D990FE0053D25FD659A4E358DE10A8F9756C9066A13B71AE860728B75'
 app.config['UPLOAD_FOLDER'] = 'images'
 
+tmpImages = 'tmpImages'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 
@@ -61,28 +67,65 @@ def getData():
     return Response(content, status=200, mimetype="application/json")
 
 
+def downloadImage(URL, Path):
+    return wget.download(URL, Path)
+
+
+def clear_directory(Path):
+    for filename in os.listdir(Path):
+        file_path = os.path.join(Path, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e))
+
+
 @app.route('/renderImage', methods=["POST"])
 @cross_origin()
 def renderImage():
-    if 'file' not in request.files:
-        flash('No file part')
-        return Response("Key 'file' not found in request!", status=400)
-    file = request.files['file']
-    if file.filename == '':
-        flash('No selected file')
-        return Response("No files found!", status=400)
-    if file and allowed_file(file.filename):
-        images = []
-        for file in request.files.getlist('file'):
-            images.append(file)
-        mixer = InitializeMixer.InitializeMixer(images)
-        mixedImage = mixer.getImage()
-        DataHolder.images.clear()
-        DataHolder.mixedImage.clear()
+    firstImage = request.values.get('firstImage')
+    secondImage = request.values.get('secondImage')
 
-        return Response(genImg(mixedImage), mimetype="multipart/x-mixed-replace; boundary=frame")
-    else:
-        return Response("No files found!", status=400)
+    if firstImage is None:
+        flash('No file part')
+        return Response("Key 'firstImage' not found in request!", status=400)
+
+    if secondImage is None:
+        flash('No file part')
+        return Response("Key 'secondImage' not found in request!", status=400)
+
+    clear_directory(tmpImages)
+    firstExtension = firstImage.split("/")[7].split('.')[1]
+    secondExtension = secondImage.split("/")[7].split('.')[1]
+    firstFile = '1.' + firstExtension
+    secondFile = '2.' + secondExtension
+    downloadImage(firstImage, tmpImages + "\\" + firstFile)
+    downloadImage(firstImage, tmpImages + "\\" + secondFile)
+
+    return send_from_directory(tmpImages, firstFile, as_attachment=True)
+    # file = request.files['file']
+    # if file.filename == '':
+    #     flash('No selected file')
+    #     return Response("No files found!", status=400)
+    #
+    #
+    #
+    # if file and allowed_file(file.filename):
+    #     images = []
+    #     for file in request.files.getlist('file'):
+    #         images.append(file)
+    #     mixer = InitializeMixer.InitializeMixer(images)
+    #     mixedImage = mixer.getImage()
+    #     DataHolder.images.clear()
+    #     DataHolder.mixedImage.clear()
+    #
+    #     return Response(genImg(mixedImage), mimetype="multipart/x-mixed-replace; boundary=frame")
+    #
+    # else:
+    #     return Response("No files found!", status=400)
 
 
 def genImg(mixedImage):
