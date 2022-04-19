@@ -18,9 +18,14 @@ def page_not_found(e):
     return redirect("/")
 
 
-@app.route("/download/<path:path>", methods=["GET"])
-def static_dir(path):
+@app.route("/view/<path:path>", methods=["GET"])
+def view(path):
     return send_from_directory("images", path)
+
+
+@app.route("/download/<path:path>", methods=["GET"])
+def download(path):
+    return send_from_directory("images", path, as_attachment=True)
 
 
 @app.route('/getFilesNames', methods=["GET"])
