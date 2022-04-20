@@ -19,8 +19,10 @@ def prepareImagesToMix(firstImage, secondImage):
     path = tmpImagesFolder + '\\' + date + "_" + secretWorkingDirectoryKey
     makeDir(path)
 
-    firstExtension = firstImage.split("/")[7].split('.')[1]
-    secondExtension = secondImage.split("/")[7].split('.')[1]
+    print(len(firstImage.split("/")))
+
+    firstExtension = firstImage.split("/")[len(firstImage.split("/")) - 1].split('.')[1]
+    secondExtension = secondImage.split("/")[len(secondImage.split("/")) - 1].split('.')[1]
     uuid2 = str(uuid.uuid4())
     firstFile = uuid2 + '_1_.' + firstExtension
     secondFile = uuid2 + '_2_.' + secondExtension
