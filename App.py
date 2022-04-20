@@ -3,18 +3,15 @@ import json
 from flask import Flask, Response, request, flash, redirect, send_from_directory
 from werkzeug.utils import secure_filename
 from flask_cors import cross_origin
-from picture_mixer import InitializeMixer
-from picture_mixer.servieces import DataHolder
-import requests
 import wget
-import io
-import urllib3
 import shutil
+import ssl
 
 app = Flask(__name__, static_url_path='', static_folder='static', template_folder='templates')
 app.secret_key = 'E20467A8B2D5F32E451E1125BE47045DE600AA22F97046263869E291C5A49A67DD47C52D990FE0053D25FD659A4E358DE10A8F9756C9066A13B71AE860728B75'
 app.config['UPLOAD_FOLDER'] = 'images'
 
+ssl._create_default_https_context = ssl._create_unverified_context
 tmpImages = 'tmpImages'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
