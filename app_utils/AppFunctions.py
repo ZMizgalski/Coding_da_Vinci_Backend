@@ -4,6 +4,7 @@ from app_utils.AppVariables import *
 import shutil
 from datetime import datetime
 import uuid
+from picture_mixer import MixImage
 
 
 def allowed_file(filename):
@@ -40,7 +41,8 @@ def mixImage(parentFileName, childFileName, path, fileExtension, date):
 
 
 def generateImage(path):
-    print(path)
+    finalPath = MixImage.MixImage(path)
+    print(finalPath)
 
 
 def downloadImage(URL, Path):

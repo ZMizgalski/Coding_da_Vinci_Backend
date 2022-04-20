@@ -1,7 +1,10 @@
 class MixImage:
 
-    def __init__(self, parameters):
-        self.parameters = parameters
+    def __init__(self, path):
+        self.path = path
 
     def mix(self):
-        print(self.parameters)
+        print(self.path)
+
+    def __repr__(self):
+        return self.path
