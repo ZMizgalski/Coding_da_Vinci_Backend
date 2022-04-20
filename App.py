@@ -106,7 +106,6 @@ def renderImage():
         flash('No file part')
         return Response("Key 'secondImage' not found in request!", status=400)
 
-    makeDir(app.config['UPLOAD_FOLDER'])
     makeDir(tmpImages)
     clear_directory(tmpImages)
     date = datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -120,7 +119,7 @@ def renderImage():
     secondFile = uuid2 + '_2_.' + secondExtension
 
     downloadImage(firstImage, path + '\\' + firstFile)
-    downloadImage(firstImage, path + '\\' + secondFile)
+    downloadImage(secondImage, path + '\\' + secondFile)
 
     mixedFileName = uuid2 + "_" + NameOfMixedFile + "." + firstExtension
     shutil.copy(path + "\\" + firstFile, path + "\\" + mixedFileName)
