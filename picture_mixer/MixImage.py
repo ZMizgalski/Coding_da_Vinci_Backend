@@ -4,4 +4,4 @@ class MixImage:
         self.parameters = parameters
 
     def mix(self):
-        print('mix')
+        print(self.parameters)
