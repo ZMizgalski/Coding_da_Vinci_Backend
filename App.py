@@ -1,3 +1,4 @@
+import mimetypes
 import os
 import json
 from flask import Flask, Response, request, flash, redirect, send_from_directory
@@ -6,6 +7,7 @@ from flask_cors import cross_origin
 import wget
 import shutil
 import ssl
+import uuid
 
 app = Flask(__name__, static_url_path='', static_folder='static', template_folder='templates')
 app.secret_key = 'E20467A8B2D5F32E451E1125BE47045DE600AA22F97046263869E291C5A49A67DD47C52D990FE0053D25FD659A4E358DE10A8F9756C9066A13B71AE860728B75'
@@ -37,14 +39,13 @@ def get_all_filenames():
 
 
 @app.route('/makePublic', methods=["POST"])
+@cross_origin()
 def upload_mixed_file():
     if 'file' not in request.files:
         flash('No file part')
         return Response("Key 'file' not found in request!", status=400)
     file = request.files['file']
-    if file.filename == '':
-        flash('No selected file')
-        return Response("No files found!", status=400)
+    file.filename = str(uuid.uuid4()) + mimetypes.guess_extension(file.mimetype)
     if file and allowed_file(file.filename):
         print(request.files.getlist('file'))
         if len(request.files.getlist('file')) > 1:
