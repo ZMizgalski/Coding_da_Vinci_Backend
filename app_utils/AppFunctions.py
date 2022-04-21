@@ -5,6 +5,7 @@ import shutil
 from datetime import datetime
 import uuid
 from picture_mixer import MixImage
+from picture_mixer.MixImage import mix_images
 
 
 def allowed_file(filename):
@@ -14,7 +15,6 @@ def allowed_file(filename):
 
 def prepareImagesToMix(firstImage, secondImage):
     makeDir(tmpImagesFolder)
-    clear_directory(tmpImagesFolder)
     date = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     path = tmpImagesFolder + '\\' + date + "_" + secretWorkingDirectoryKey
     makeDir(path)
@@ -29,17 +29,12 @@ def prepareImagesToMix(firstImage, secondImage):
 
     downloadImage(firstImage, path + '\\' + firstFile)
     downloadImage(secondImage, path + '\\' + secondFile)
-    mixedFileName = mixImage(firstFile, uuid2, path, firstExtension, date)
-
-    return {'src': tmpImagesFolder + '\\' + date + "_" + secretDoneDirectoryKey, 'dst': mixedFileName}
-
-
-def mixImage(parentFileName, childFileName, path, fileExtension, date):
-    mixedFileName = childFileName + "_" + nameOfMixedFile + "." + fileExtension
-    shutil.copy(path + "\\" + parentFileName, path + "\\" + mixedFileName)
-    generateImage(path + "\\" + mixedFileName)
-    os.rename(path, tmpImagesFolder + '\\' + date + "_" + secretDoneDirectoryKey)
-    return mixedFileName
+    mixed_file = mix_images(path + '\\' + firstFile, path + '\\' + secondFile)
+    # os.rename(path, tmpImagesFolder + '\\' + date + "_" + secretDoneDirectoryKey)
+    shutil.rmtree(path, ignore_errors=True)
+    # print(path, tmpImagesFolder + '\\' + date + "_" + secretDoneDirectoryKey)
+    # mixedFileName = mixImage(firstFile, uuid2, path, firstExtension, date)
+    return mixed_file
 
 
 def generateImage(path):

@@ -1,7 +1,9 @@
-from flask import Flask, Response, request, flash, redirect, send_from_directory
+from flask import Flask, Response, request, flash, redirect, send_from_directory, make_response
 from flask_cors import cross_origin
 import ssl
 from app_utils import AppFunctions, AppVariables
+from picture_mixer.MixImage import mix_images
+import cv2 as cv
 
 app = Flask(__name__, static_url_path='', static_folder='static', template_folder='templates')
 app.secret_key = AppVariables.appSecretKey
@@ -35,10 +37,14 @@ def renderImage():
         flash('No file part')
         return Response("Key 'secondImage' not found in request!", status=400)
 
-    data = AppFunctions.prepareImagesToMix(firstImage, secondImage)
-    src = data['src']
-    dst = data['dst']
-    return send_from_directory(src, dst, as_attachment=True)
+    mixed_file = AppFunctions.prepareImagesToMix(firstImage, secondImage)
+    # src = data['src']
+    # dst = data['dst']
+    # print(src, dst)
+    retval, buffer = cv.imencode('.jpg', mixed_file)
+    response = make_response(buffer.tobytes())
+    # return send_from_directory(src, dst, as_attachment=True)
+    return response
 
 
 app.run(port=8080, debug=False)
