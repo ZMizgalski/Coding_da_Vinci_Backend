@@ -1,7 +1,9 @@
 from flask import Flask, Response, request, flash, redirect, make_response, render_template
+from flask import Flask, Response, request, flash, redirect, send_from_directory, make_response
 from flask_cors import cross_origin
 import ssl
 from app_utils import AppFunctions, AppVariables
+from picture_mixer.MixImage import mix_images
 import cv2 as cv
 
 app = Flask(__name__, static_url_path='', static_folder='static', template_folder='templates')
