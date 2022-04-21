@@ -21,7 +21,7 @@ def mix_images(image1_path: str, image2_path: str):
     image1_thresh = cv.adaptiveThreshold(image1, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 25, 10)
     image2_thresh = cv.adaptiveThreshold(image2, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 25, 10)
     merged_image = cv.bitwise_and(image1_thresh, image2_thresh)
-    merged_image = cv.dilate(merged_image, (3, 3), iterations=1)
+    # merged_image = cv.dilate(merged_image, (3, 3), iterations=1)
     # merged_image = cv.erode(merged_image, (3, 3), iterations=1)
     merged_image = cv.medianBlur(merged_image, 3)
     merged_image = cv.cvtColor(merged_image, cv.COLOR_GRAY2RGB)
