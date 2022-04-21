@@ -1,4 +1,4 @@
-from flask import Flask, Response, request, flash, redirect, make_response
+from flask import Flask, Response, request, flash, redirect, make_response, render_template
 from flask_cors import cross_origin
 import ssl
 from app_utils import AppFunctions, AppVariables
@@ -7,6 +7,11 @@ import cv2 as cv
 app = Flask(__name__, static_url_path='', static_folder='static', template_folder='templates')
 app.secret_key = AppVariables.appSecretKey
 ssl._create_default_https_context = ssl._create_unverified_context
+
+
+@app.route('/')
+def basic_pages(**kwargs):
+    return render_template("index.html")
 
 
 @app.errorhandler(404)
