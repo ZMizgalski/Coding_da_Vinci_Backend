@@ -28,7 +28,7 @@ def mix_images(image1_path: str, image2_path: str):
     # cv.imwrite("temp/main.jpg", merged_image)
     # cv.imwrite("temp/style.jpg", styleImage)
     transfer = StyleTransfer()
-    artwork = transfer(Image.fromarray(merged_image), Image.fromarray(styleImage), iter=100, area=707)
+    artwork = transfer(Image.fromarray(merged_image), Image.fromarray(styleImage), iter=50, area=707)
     opencv_image = np.array(artwork)
     # cv.imwrite("temp/result.jpg", opencv_image)
     return opencv_image
