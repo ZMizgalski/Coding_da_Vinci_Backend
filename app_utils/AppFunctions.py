@@ -58,9 +58,11 @@ def clear_directory(Path):
         try:
             if os.path.isfile(file_path) or os.path.islink(file_path):
                 os.unlink(file_path)
-            elif len(os.listdir(file_path) ) == 0:
+            elif len(os.listdir(file_path)) == 0:
                 shutil.rmtree(file_path)
             elif os.path.isdir(file_path) & (secretDoneDirectoryKey in filename):
+                shutil.rmtree(file_path)
+            else:
                 shutil.rmtree(file_path)
         except Exception as e:
             print('Failed to delete %s. Reason: %s' % (file_path, e))
