@@ -48,7 +48,7 @@ Project is:  _complete_ .
 #### 3. Threshold results are combined together.
 <img src="https://user-images.githubusercontent.com/61599048/164991229-7bc771f0-5293-43f5-951a-46541e268137.jpg" style="height: 500px"/>
 
-#### 4. Neural style transfer is used https://github.com/moritztng/prism, color is based on second image.
+#### 4. Neural style transfer is used (https://github.com/moritztng/prism MIT Licence), color is based on second image.
 #### 5. Result after running 50 iteration of style transfer using 800x800 resolution setting.
 <img src="https://user-images.githubusercontent.com/61599048/164991363-390933b6-ee94-400a-be3f-b15dde0dc5db.jpg" style="height: 500px"/>  
 
