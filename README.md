@@ -32,14 +32,29 @@ List the ready features here:
 ## Usage
 1. Create a folder named you like.
 2. Inside your folder, open console and paste: `git clone https://github.com/ZMizgalski/Coding_da_Vinci_Backend.git`
-3. Then you are ready to go just open it in any Editor. (I prefer Pycharm) [Download here](https://www.jetbrains.com/pycharm/)
+3. Then you are ready to go just open it in any Editor. (We prefer Pycharm) [Download here](https://www.jetbrains.com/pycharm/)
 
 ## Project Status
 Project is:  _complete_ .
 
+# Blending algorithm overview:
+#### 1. Input are two images.
+<div style="display: flex">
+  <img src="https://user-images.githubusercontent.com/61599048/164991130-a6e60cd7-7671-4ac8-9c92-01027cb57fca.jpg" style="height: 500px"/>
+  <img src ="https://user-images.githubusercontent.com/61599048/164991142-5c165050-c5fd-4026-85c6-955dd43beedf.jpg" style="height: 500px"/>
+</div>
+
+#### 2. Both images are slightly zoomed in and threshold operation is performed.
+#### 3. Threshold results are combined together.
+<img src="https://user-images.githubusercontent.com/61599048/164991229-7bc771f0-5293-43f5-951a-46541e268137.jpg" style="height: 600px"/>
+
+#### 4. Neural style transfer is used https://github.com/moritztng/prism, style is based on second image.
+#### 5. Result after running 50 iteration of style transfer using 800x800 resolution setting.
+<img src="https://user-images.githubusercontent.com/61599048/164991363-390933b6-ee94-400a-be3f-b15dde0dc5db.jpg" style="height: 600px"/>  
+
 ## Room for Improvement
 - Security
-- Ai algorithm
+- Blending algorithm
 
 ## Contact
 Created by [@zmizgalski](https://zmizgalski.github.io/), [@krzysztofprogramming](https://krzysztofprogramming.github.io/)
