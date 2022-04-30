@@ -54,6 +54,16 @@ Project is:  _complete_ .
 #### 5. Result after running 50 iteration of style transfer using 800x800 resolution setting.
 <img src="https://user-images.githubusercontent.com/61599048/164991363-390933b6-ee94-400a-be3f-b15dde0dc5db.jpg" style="height: 500px"/>  
 
+## Example effects:
+<div style="display: flex">
+  <img src="https://user-images.githubusercontent.com/61599048/166100952-b4f74771-079b-497c-9d2f-aa49c72ecaf7.jpg" style="height: 350px"/>
+  <img src="https://user-images.githubusercontent.com/61599048/166100992-dd2bacbe-e9aa-4caf-9386-9e36af007794.jpg" style="height: 350px"/>
+  <img src="https://user-images.githubusercontent.com/61599048/166100963-2ede2d4b-2727-4d3a-96c0-b21276ea0352.jpg" style="height: 350px"/>
+  <img src="https://user-images.githubusercontent.com/61599048/166101006-3592d7d8-0c90-44e9-9aaa-75571e81bcf6.jpg" style="height: 350px"/>
+  <img src="https://user-images.githubusercontent.com/61599048/166101013-0f5999ac-4136-45a7-8564-2da222442054.jpg" style="height: 350px"/>
+  <img src="https://user-images.githubusercontent.com/61599048/166101029-e09537cb-543c-4d5c-a4ef-8bc0d44382de.jpg" style="height: 350px"/>
+</div>
+
 ## Room for Improvement
 - Security
 - Blending algorithm
